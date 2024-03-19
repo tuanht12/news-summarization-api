@@ -15,10 +15,10 @@ This repository contains a demo news summarization application for summarizing V
 ## Demo
 
 ### API
-<img src="https://github.com/tuanht12/mle1-final-project/blob/c981e3598f60ae6f5c542e2a7c5afc2ff2f127e7/assets/videos/api_demo.gif" width="400" height="790">
+<img src="https://github.com/tuanht12/mle1-final-project/blob/c981e3598f60ae6f5c542e2a7c5afc2ff2f127e7/assets/videos/api_demo.gif" width="640" height="400">
 
 ### Monitoring in Grafana
-<img src="https://github.com/tuanht12/mle1-final-project/blob/c981e3598f60ae6f5c542e2a7c5afc2ff2f127e7/assets/videos/grafana_demo.gif" width="400" height="790">
+<img src="https://github.com/tuanht12/mle1-final-project/blob/c981e3598f60ae6f5c542e2a7c5afc2ff2f127e7/assets/videos/grafana_demo.gif" width="640" height="400">
 
 ## Run code in your local machine
 
