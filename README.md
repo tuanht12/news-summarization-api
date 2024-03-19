@@ -23,7 +23,7 @@ This repository contains a demo news summarization application for summarizing V
 ## Run code in your local machine
 
 ### Create virtual environment, install required packages and download pretrained checkpoints
-- We will use Python 3.8
+We will use Python 3.8
 ```shell
 make venv
 source venv/bin/activate
@@ -47,25 +47,77 @@ Then, you can try the API at `localhost:30000/docs`.
 
 * **Setup Gcloud Project**
   - Authorizes gcloud and other SDK tools to access Google Cloud and setup configuration
-  ```
-  gcloud init
-  ```
+    ```
+    gcloud init
+    ```
   - Login to GCP
-  ```
-  gcloud auth application-default login
-  ```
+    ```
+    gcloud auth application-default login
+    ```
+
+### Deploy Model to GKE cluster
+
+#### Create GKE Cluster with Terraform
+Run the following commands to create a GKE cluster using **Terraform**
+```
+cd terraform
+terraform init
+terraform plan
+terraform apply
+```
+After a while, you should see this if your cluster is successfully created
+![Create cluster](assets/images/success_create_k8s.png)
+
+#### Run API in GKE cluster
+- Connect to the cluster using `gcloud` command.
+![Connect to K8S](assets/images/connect_k8s.png)
+
+- Switch the current `context` using `kubectx`
+![Switch context](assets/images/switch_context.png)
+
+- Create namespaces
+    ```
+    kubectl create ns nginx-ingress
+    kubectl create ns model-serving
+    ```
+
+- Deploy **NGINX-ingress**
+    ```shell
+    kubens nginx-system
+    helm upgrade --install nginx-ingress helm-charts/nginx-ingress
+    ```
+
+- Get External IP of NGINX-ingress
+    ```shell
+    kubens nginx-system
+    kubectl get svc
+    ```
+    ![nginx_ip](assets/images/get_nginx_ip.png)
+
+- Replace the External IP above in `spec/rules/host` in file `helm-charts/model-deployment/templates/nginx-ingress.yaml`
+
+- Deploy Model
+    ```
+    kubens model-serving
+    helm upgrade --install news-summarization helm-charts/model-deployment
+    ```
+- You can access the API in `NGINX_EXTERNAL_IP.nip.io/docs`
+![API Acess](assets/images/api_access.png)
+
 ### CI/CD Jenkins in GCE
 
 #### Create a Compute Instance using Ansible
 - Create a new service account with [Compute Admin](https://cloud.google.com/compute/docs/access/iam#compute.admin) role. In this project, the service account is named `ansible-sa`.
 - Navigate to **Service accounts** section, select action **Manage keys**.
 ![Manage key](assets/images/manage_service_account.png)
+
 - Create new key of the created service account and download it as JSON file.
 ![Key of Service Account](assets/images/json_key.png)
+
 - Save the downloaded JSON key in `ansible/secrets`.
 - Update the `service_account_file` field in `ansible/playbooks/create_compute_instance.yml` with your new path to the new JSON key.
 - Run the following command in terminal to create a Compute Instance
-    ```sh
+    ``` shell
     ansible-playbook ansible/playbooks/create_compute_instance.yml
     ```
 - After few moments, you should see your instance is successfully created with the name `vm-jenkins`
@@ -77,7 +129,7 @@ Then, you can try the API at `localhost:30000/docs`.
 - Select **EDIT** and copy your public key that is just created (.pub file).
 - Update the external IP of your VM and the path to private key in `ansible/inventory`.
 - Run the following command in terminal to deploy Jenkins on the VM
-    ```sh
+    ```shell
     ansible-playbook --inventory-file ansible/inventory ansible/playbooks/deploy_jenkins.yml
     ```
 
@@ -103,8 +155,9 @@ Then, you can try the API at `localhost:30000/docs`.
 
 * **Connect Jenkins to GitHub Repo**
   - Add Jenkins to Repo Webhook
-    - Payload URL would `http://INSTANCE_EXTERNAL_IP:8081//github-webhook/`
-    ![Webhook](assets/images/Screenshot%20from%202023-11-14%2017-49-49.png)
+    - Payload URL would `http://INSTANCE_EXTERNAL_IP:8081/github-webhook/`
+    ![Webhook](assets/images/config_webhook.png)
+
     - Event Trigger can be set to: *Pushes* and *Pull Requests*
   - Add GitHub Repo to Jenkins
     - Create new Multibranch Item in Jenkins
@@ -115,6 +168,11 @@ Then, you can try the API at `localhost:30000/docs`.
         - Copy the URL to your Github repo.
         - Click `Validate` to see whether Jenkins successfully connect to your Github repo or not.
     ![Connect to Github](assets/images/github_credential_jenkins.png)
+
+* **Add DockerHub Token to Jenkins Credential**
+    - Create a new DockerHub Token
+    - Add the token to Jenkins' Credentials
+      - *Note*: ID must be `dockerhub` to match the `registryCredential` in `Jenkinsfile`.
 
 * **Setup Cloud Connection**
   
