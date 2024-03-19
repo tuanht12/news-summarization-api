@@ -138,12 +138,14 @@ After a while, you should see this if your cluster is successfully created
   - Checking Jenkins installed successfully on GCE
     - Access the GCE instance
       ```
-      ssh -i ~/.ssh/id_rsa YOUR_USERNAME@INSTANCE_EXTERNAL_IP
+      ssh YOUR_USERNAME@INSTANCE_EXTERNAL_IP -i PATH_TO_PRIVATE_SSH_KEY
       ```
     - Verify if Jenkins is running in the Compute Engine instance
       ```
       sudo docker ps
       ```
+      ![Jenkins deploy](assets/images/jenkins_deployed.png)
+
   - Access Jenkins UI via `INSTANCE_EXTERNAL_IP:8081`.
   - Follow the instruction to log in into Jenkins.
   - The password can be retrieved by
