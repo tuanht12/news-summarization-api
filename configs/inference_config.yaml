@@ -1,0 +1,11 @@
+generator:
+  max_length: 300
+  early_stopping: True
+  num_return_sequences: 1
+  diversity_penalty: 10
+  num_beams: 4
+  num_beam_groups: 2
+
+decode_tokenizer:
+  skip_special_tokens: True
+  clean_up_tokenization_spaces: True

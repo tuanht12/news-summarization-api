@@ -1,0 +1,3 @@
+[servers]
+
+34.124.241.212 ansible_ssh_private_key_file=/Users/lap14470/id_rsa
