@@ -19,7 +19,7 @@ helm upgrade --install news-summarization .
 ## Deploy Grafana
 ```shell
 kubectl create ns monitoring
-kubens nginx-monitoring
+kubens monitoring
 cd helm-charts/k8s-monitoring/kube-prometheus-stack
 helm dependency build
 cd helm-charts/k8s-monitoring

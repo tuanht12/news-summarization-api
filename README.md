@@ -196,3 +196,39 @@ After a while, you should see this if your cluster is successfully created
   - When there is a new push of new changes to a branch, the test pipeline will run.
   - When there are changes merged to `main`, the **Deploy** pipeline will run, build and push the latest image to DockerHub.
   - After that, the pipeline will use **Helm** to pull and deploy the latest image in GKE cluster automatically.
+
+## Monitoring System
+- Create and switch to namespace `monitoring`
+    ``` shell
+    kubectl create ns monitoring
+    kubens monitoring
+    ```
+
+- Get dependencies to build `kube-prometheus-stack`
+    ``` shell
+    cd helm-charts/k8s-monitoring/kube-prometheus-stack
+    helm dependency build
+    ```
+
+- Deploy `kube-prometheus-stack` using `helm`
+    ```shell
+    cd helm-charts/k8s-monitoring
+    helm install -f kube-prometheus-stack.expanded.yaml kube-prometheus-stack kube-prometheus-stack -n monitoring
+    ```
+
+- Edit **hosts**
+  - Add 2 hosts of `grafana` and `prometheus` at the end of `/ect/hosts`
+    ```
+    sudo vim /ect/hosts
+    ```
+    ```
+    NGINX_EXTERNAL_IP prometheus.newssum.monitor.com
+    NGINX_EXTERNAL_IP grafana.newssum.monitor.com
+    ```
+
+- Grafana can be accessed at `http://grafana.newssum.monitor.com/login`
+![grafana_login](assets/images/login_grafana.png)
+
+- Prometheus can be accessed at `http://prometheus.newssum.monitor.com`
+![prometheus](assets/images/prometheus.png)
+

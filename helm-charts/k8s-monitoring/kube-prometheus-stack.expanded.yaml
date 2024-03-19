@@ -10,8 +10,6 @@ grafana:
     path: /
 
 prometheus:
-  # username is 'admin'
-  # adminPassword: tuanht2admin
   ingress:
     enabled: true
     annotations:
