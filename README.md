@@ -234,3 +234,6 @@ After a while, you should see this if your cluster is successfully created
 - Prometheus can be accessed at `http://prometheus.newssum.monitor.com`
 ![prometheus](assets/images/prometheus.png)
 
+## TODO
+- Add Model Performance Measurement: metrics and visualization 
+- Add Logs and Traces Storage: The application integrates with a logging and tracing system to capture and store logs and traces for troubleshooting and analysis. Elasticsearch and Jaeger are used for log storage and distributed tracing, respectively.
