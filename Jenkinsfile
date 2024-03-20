@@ -28,7 +28,7 @@ pipeline {
         }
         stage('Build') {
             when {
-                branch 'master'
+                branch 'main'
             }
             steps {
                 script {
@@ -45,7 +45,7 @@ pipeline {
         }
         stage('Deploy') {
             when {
-                branch 'master'
+                branch 'main'
             }
             agent {
                 kubernetes {
