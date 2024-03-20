@@ -10,4 +10,5 @@ def test_run_inference():
                     HMS Queen Elizabeth cập cảng Glenmallan để tháo dỡ đạn dược và nhu yếu phẩm, trước khi tới nhà máy tại Rosyth để sửa chữa trục chân vịt và bảo dưỡng.
                     Phát ngôn viên hải quân Anh xác nhận thông tin, nói rằng "đám cháy nhỏ lẻ" trên HMS Queen Elizabeth đã được kiểm soát và dập tắt nhanh chóng, nhấn mạnh sự cố không liên quan đến kho đạn dược trên tàu."""  # noqa
     text_summarizer = TextSummarizer(inference_config_path=INFERENCE_CONFIG_PATH)
-    text_summarizer.summarize(sample_text)
+    output = text_summarizer.summarize(sample_text)
+    assert len(output) > 0, "Output is empty"
