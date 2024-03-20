@@ -20,6 +20,9 @@ EXPOSE 30000
 
 # Disable pip cache to shrink the image size a little bit,
 # since it does not need to be re-installed
+
+RUN pip install torch==2.0.1
+RUN pip install transformers==4.36.2
 RUN pip install -r requirements.txt --no-cache-dir
 
 RUN python download_pretrained_model.py
