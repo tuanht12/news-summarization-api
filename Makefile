@@ -1,6 +1,6 @@
 SHELL = /bin/bash
 PYTHON = python3.8
-BUILD_DIR = ./src ./configs ./tests ./*.py
+BUILD_DIR = ./src ./configs ./tests ./*.py ./ansible ./jenkins ./terraform
 LINE_LENGTH = 90
 
 # Environment
