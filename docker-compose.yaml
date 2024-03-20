@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  news_summarization_api:
+    # The name will be displayed # in docker ps
+    container_name: news_summarization_api
+    # Build the image from Dockerfile
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: tuanht2/news-summarization:latest

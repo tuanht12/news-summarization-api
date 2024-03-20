@@ -1,0 +1,4 @@
+image:
+  repository: tuanht2/news-summarization
+  tag: latest
+  pullPolicy: Always
